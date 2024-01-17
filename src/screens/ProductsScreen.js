@@ -25,7 +25,6 @@ const ProductsScreen = ({ route }) => {
   useEffect(() => {
     fetchProductsByName(search);
   }, [search]);
-  console.log(products);
   return (
     <View className="mt-9">
       <View className="flex-row justify-between items-center px-5">

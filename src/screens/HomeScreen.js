@@ -16,7 +16,8 @@ const Home = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
   const { isLoggedIn,currentUser} = useContext(AuthContext);
   const {products,setProducts} = useContext(ProductContext);
-const [search, setSearch] = useState();
+  const [search, setSearch] = useState();
+  const [category, setCategory] = useState();
   const fetchAllProducts = async () => {
     const result = await getProducts()
     setProducts(result)

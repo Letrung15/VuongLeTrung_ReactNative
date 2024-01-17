@@ -49,16 +49,45 @@ export const getProductsByName = async (productName) => {
 
   return products;
 };
-export const getProductByCategory = async (brand) => {
-  const productsRef = collection(db, "products");
-  const q = query(productsRef, where("brand", "==", brand));
-  console.log('Áo sơ mi',q)
-  const querySnapshot = await getDocs(q);
 
-  const products = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-console.log(products)
-  return products;
+export const getProductsByCategory = async (brandName) => {
+  // Type checking for brandName
+  if (typeof brandName !== 'string' || brandName.trim() === '') {
+    throw new Error('Invalid brandName. It must be a non-empty string.');
+  }
+
+  const productsRef = collection(db, 'products');
+  const q = query(productsRef, where('brand', '==', brandName));
+
+  try {
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log('No matching documents for brand:', brandName);
+      return [];
+    }
+
+    const products = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return products;
+  } catch (error) {
+    // Handle specific errors or rethrow
+    console.error('Error querying Firestore:', error.message);
+    throw error;
+  }
 };
+// export const getProductByCategory = async (brand) => {
+//   const productsRef = collection(db, "products");
+//   const q = query(productsRef, where("brand", "==", brand));
+//   console.log('Áo sơ mi',q)
+//   const querySnapshot = await getDocs(q);
+
+//   const products = querySnapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   }));
+//   return products;
+// };

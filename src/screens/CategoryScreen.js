@@ -1,71 +1,94 @@
-import { Text, View, Image, ScrollView, Pressable } from "react-native";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-
-import { SafeAreaView } from "react-native-safe-area-context";
-import {
-    getProductByCategory,
-  getProductByName,
-  getProductsByName,
-} from "../features/firebase/product";
-import ProductContext from "../features/productContext";
+import React, { useEffect, useState } from "react";
+import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { getProductsByCategory } from "../features/firebase/product";
 import NewArrivalsCard from "../components/NewArrivalsCard";
 
-const CategoryScreen = ({ route }) => {
-  // const categories = ["Áo sơ mi", "Áo thun", "Quần tây", "Quần âu"];
-  const categories = [category, setCategory];
+const CategoryScreen = ({ route, navigation }) => {
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState("");
+  const { brandName = "" } = route.params || {};
 
-  const fetchProductsByCategory = async (category) => {
+  useEffect(() => {
+    if (brandName) {
+      fetchProductsByCategory(brandName);
+      setCategory(brandName);
+    }
+  }, [brandName]);
+
+  const fetchProductsByCategory = async (brandName) => {
     try {
-      const result = await getProductByCategory(category);
+      const result = await getProductsByCategory(brandName);
       setProducts(result);
     } catch (error) {
       console.error(error);
     }
   };
-   useEffect(() => {
-    // Fetch products for the default category (Áo sơ mi in this case)
-    fetchProductsByCategory(categories[0]);
-  }, []);
-   const handleCategoryPress = (category) => {
-    // Fetch products for the selected category
-    fetchProductsByCategory(category);
-  };
+
   return (
-     <View className="mt-12">
+    <View className="mt-9">
       <View className="flex-row justify-between items-center px-3">
-        <Text className="text-lg font-extrabold">Danh mục sản phẩm</Text>
+        <Text className="text-lg text-2xl font-extrabold">Danh mục:</Text>
       </View>
       <ScrollView
-        style={{ marginTop: 4, marginLeft: 5 }}
-        horizontal={false} // Set to false to arrange buttons in columns
-        showsVerticalScrollIndicator={false}
+        style={{ marginTop: 5, marginLeft: 13}}
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
       >
-        {categories.map((category, index) => (
-          <Pressable
-            key={index}
-            style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-            onPress={() => handleCategoryPress(category)}
-          >
-            <View
-              style={{
-                backgroundColor: "#e0e0e0",
-                paddingVertical: 10,
-                paddingHorizontal: 15,
-                marginVertical: 5,
-                borderRadius: 8,
-              }}
-            >
-              <Text>{category}</Text>
-            </View>
-          </Pressable>
-        ))}
+        <TouchableOpacity
+          onPress={() => {
+            setCategory("Áo sơ mi");
+            navigation.setParams({ brandName: "Áo sơ mi" });
+            fetchProductsByCategory("Áo sơ mi");
+          }}
+          style={{padding: 15, borderWidth:1, borderColor: "gray", borderRadius: 5, flex: 1}}
+        >
+          <Text>Áo sơ mi</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setCategory("Quần tây");
+            navigation.setParams({ brandName: "Quần tây" });
+            fetchProductsByCategory("Quần tây");
+          }}
+          style={{padding: 15,borderWidth: 1,borderColor: "gray",borderRadius: 5, flex: 1}}
+        >
+          <Text>Quần tây</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setCategory("Quần âu");
+            navigation.setParams({ brandName: "Quần âu" });
+            fetchProductsByCategory("Quần âu");
+          }}
+          style={{padding: 15, borderWidth:1, borderColor: "gray", borderRadius: 5, flex: 1}}
+        >
+          <Text>Quần âu</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setCategory("Áo thun");
+            navigation.setParams({ brandName: "Áo thun" });
+            fetchProductsByCategory("Áo thun");
+          }}
+          style={{padding: 15, borderWidth:1, borderColor: "gray", borderRadius: 5, flex: 1}}
+        >
+          <Text>Áo thun</Text>
+        </TouchableOpacity>
       </ScrollView>
-      {/* Display your products here using the 'products' state */}
-      {/* For example, you can map through 'products' and render NewArrivalsCard */}
-      {products.map((product, index) => (
-        <NewArrivalsCard key={index} product={product} />
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+      {products.map((products) => (
+        <View key={products.id}  style={{ width: '48%', marginBottom: 10, padding: 10, backgroundColor: 'white', borderRadius: 5 }}>
+          <NewArrivalsCard
+            title={products.title}
+            image={products.image}
+            price={products.price}
+            brand={products.brand}
+            
+          />
+          {/* Các thông tin khác về sản phẩm */}
+        </View>
       ))}
+      </View>
     </View>
   );
 };
