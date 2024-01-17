@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, ScrollView, TouchableOpacity, Pressable } from "react-native";
 import { getProductsByCategory } from "../features/firebase/product";
 import NewArrivalsCard from "../components/NewArrivalsCard";
 
@@ -77,16 +77,19 @@ const CategoryScreen = ({ route, navigation }) => {
       </ScrollView>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
       {products.map((products) => (
-        <View key={products.id}  style={{ width: '48%', marginBottom: 10, padding: 10, backgroundColor: 'white', borderRadius: 5 }}>
+        <Pressable key={products.id}
+        onPress={() => navigation.navigate("detailscreen",
+            {productId:products.id})}
+        style={{ width: '48%', marginBottom: 10, padding: 10, backgroundColor: 'white', borderRadius: 5 }}>
           <NewArrivalsCard
             title={products.title}
             image={products.image}
             price={products.price}
             brand={products.brand}
-            
+
           />
           {/* Các thông tin khác về sản phẩm */}
-        </View>
+        </Pressable>
       ))}
       </View>
     </View>

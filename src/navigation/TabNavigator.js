@@ -38,17 +38,17 @@ const TabNavigator = () => {
         ),
       }}
       />
-      <Tab.Screen name='Cate' component={CategoryScreen} 
+      <Tab.Screen name='Category' component={CategoryScreen} 
        options={{
         tabBarIcon: ({ size, color }) => (
-          <MaterialIcons name="shopping-cart" size={size} color={color} />
+          <MaterialIcons name="list-alt" size={size} color={color} />
         ),
       }}
       />
       <Tab.Screen name='Order' component={OrderStackNavigator} 
        options={{
         tabBarIcon: ({ size, color }) => (
-          <MaterialIcons name="list-alt" size={size} color={color} />
+          <MaterialIcons name="flight" size={size} color={color} />
         ),
       }}
       />
