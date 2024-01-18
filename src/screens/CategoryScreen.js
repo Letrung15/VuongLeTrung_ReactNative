@@ -56,23 +56,23 @@ const CategoryScreen = ({ route, navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setCategory("Quần âu");
-            navigation.setParams({ brandName: "Quần âu" });
-            fetchProductsByCategory("Quần âu");
+            setCategory("Quần short");
+            navigation.setParams({ brandName: "Quần short" });
+            fetchProductsByCategory("Quần short");
           }}
           style={{padding: 15, borderWidth:1, borderColor: "gray", borderRadius: 5, flex: 1}}
         >
-          <Text>Quần âu</Text>
+          <Text>Quần short</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setCategory("Áo thun");
-            navigation.setParams({ brandName: "Áo thun" });
-            fetchProductsByCategory("Áo thun");
+            setCategory("Quần jeans");
+            navigation.setParams({ brandName: "Quần jeans" });
+            fetchProductsByCategory("Quần jeans");
           }}
           style={{padding: 15, borderWidth:1, borderColor: "gray", borderRadius: 5, flex: 1}}
         >
-          <Text>Áo thun</Text>
+          <Text>Quần jeans</Text>
         </TouchableOpacity>
       </ScrollView>
       <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>

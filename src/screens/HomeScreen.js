@@ -75,6 +75,7 @@ const Home = ({ navigation }) => {
               className="px-2 columns-11"
               value={search}
               onChangeText={(text)=>setSearch(()=>text)}
+              
             />
            
           </View>
